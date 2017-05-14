@@ -136,7 +136,7 @@
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" white="0.94688260555267334" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.80943143367767334" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="6hl-W6-xKB" firstAttribute="leading" secondItem="Q5o-Kf-ko4" secondAttribute="trailing" constant="8" id="8LG-BC-FI0"/>
                                                 <constraint firstItem="6hl-W6-xKB" firstAttribute="centerY" secondItem="R3C-EI-9Fv" secondAttribute="centerY" id="Jc8-h5-0kQ"/>

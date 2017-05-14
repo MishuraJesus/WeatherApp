@@ -42,14 +42,29 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         
         currentWeather = CurrentWeather()
         
-        currentWeather.downloadWeatherDeatails {
-            self.downloadForecastData {
-                self.updateMainUI()
-            }
-        }
+        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        locationAuthStatus()
+    }
     
+    func locationAuthStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            currentLocation = locationManager.location
+            Location.sharedInstance.latitude = currentLocation.coordinate.latitude
+            Location.sharedInstance.longitude = currentLocation.coordinate.longitude
+            currentWeather.downloadWeatherDeatails {
+                self.downloadForecastData {
+                    self.updateMainUI()
+                }
+            }
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+            locationAuthStatus()
+        }
+    }
     
     func downloadForecastData(completed: @escaping DownloadComplete) {
         //Downloading forecast weather data for TableView
@@ -65,9 +80,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
                         let forecast = Forecast(weatherDict: obj)
                         self.forecasts.append(forecast)
                     }
-                    self.tableView.reloadData()
                     self.forecasts.remove(at: 0)
-                    print("1 \(self.forecasts.count)")
+                    self.tableView.reloadData()
                 }
             }
             completed()
@@ -80,8 +94,7 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("2 \(forecasts.count)")
-        return forecasts.count-1
+        return forecasts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
